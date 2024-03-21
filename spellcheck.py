@@ -30,55 +30,48 @@ def loadWordsFromFile(fileName):
     return re.findall(r'\b\w+\b', textData.lower())
 
 
-def spellCheckWord():
+def linearCheckWord():
     word = input("Please enter a word: ").lower()
-    selection = input("Which search algorithm to use (1: Linear Search, 2: Binary Search): ")
-
-    if selection == "1":
-        print("\nLinear Search starting...")
-        start_time = time.time()
-        index = linearSearch(word, dictionary)
-        end_time = time.time()
-        if index != -1:
-            print(f"{word} is IN the dictionary at position {index}.")
-        else:
-            print(f"{word} is NOT IN the dictionary.")
-        print(f"Time taken: {end_time - start_time} seconds")
-    elif selection == "2":
-        print("\nBinary Search starting...")
-        start_time = time.time()
-        index = binarySearch(word, dictionary)
-        end_time = time.time()
-        if index != -1:
-            print(f"{word} is IN the dictionary at position {index}.")
-        else:
-            print(f"{word} is NOT IN the dictionary.")
-        print(f"Time taken: {end_time - start_time} seconds")
+    print("\nLinear Search starting...")
+    index = linearSearch(word, dictionary)
+    if index != -1:
+        print(f"{word} is IN the dictionary at position {index}.")
     else:
-        print("Invalid selection.")
+        print(f"{word} is NOT IN the dictionary.")
 
-def spellCheckAlice():
-    selection = input("Which search algorithm to use (1: Linear Search, 2: Binary Search): ")
+def binaryCheckWord():
+    word = input("Please enter a word: ").lower()
+    print("\nBinary Search starting...")
+    index = binarySearch(word, dictionary)
+    if index != -1:
+        print(f"{word} is IN the dictionary at position {index}.")
+    else:
+        print(f"{word} is NOT IN the dictionary.")
 
+def linearCheckAlice():
     not_found_count = 0
     start_time = time.time()
+    print("\nLinear Search starting for Alice in Wonderland words...")
+    for word in aliceWords:
+        if linearSearch(word, dictionary) == -1:
+            not_found_count += 1
+        else:
+            end_time = time.time()
+            print(f"Number of words not found in dictionary: {not_found_count} "
+            f"({end_time - start_time} seconds)\n")
+    
 
-    if selection == "1":
-        print("\nLinear Search starting for Alice in Wonderland words...")
-        for word in aliceWords:
-            if linearSearch(word, dictionary) == -1:
-                not_found_count += 1
-    elif selection == "2":
-        print("\nBinary Search starting for Alice in Wonderland words...")
-        for word in aliceWords:
-            if binarySearch(word, dictionary) == -1:
-                not_found_count += 1
+def binaryCheckAlice():
+    not_found_count = 0
+    start_time = time.time()
+    print("\nBinary Search starting for Alice in Wonderland words...")
+    for word in aliceWords:
+        if binarySearch(word, dictionary) == -1:
+            not_found_count += 1
     else:
-        print("Invalid selection.")
-
-    end_time = time.time()
-    print(f"Number of words not found in dictionary: {not_found_count} "
-          f"({end_time - start_time} seconds)\n")
+        end_time = time.time()
+        print(f"Number of words not found in dictionary: {not_found_count}" 
+        f"({end_time - start_time} seconds)\n")
 
 
 def main():
@@ -103,13 +96,13 @@ def main():
         selection = input("Enter menu selection (1-5): ")
 
         if selection == "1":
-            spellCheckWord()
+            linearCheckWord()
         elif selection == "2":
-            spellCheckWord()
+            binaryCheckWord()
         elif selection == "3":
-            spellCheckAlice()
+            linearCheckAlice()
         elif selection == "4":
-            spellCheckAlice()
+            binaryCheckAlice()
         elif selection == "5":
             print("Exiting program...")
             break
